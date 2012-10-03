@@ -28,3 +28,10 @@ For more information:
      › require
      › raphael
 
+
+Installation
+------------
+
+    curl -L https://github.com/philippbosch/latest/raw/master/latest.sh > /usr/local/bin/latest
+    chmod +x /usr/local/bin/latest
+
