@@ -1,6 +1,6 @@
 #!/bin/bash
 SCRIPTNAME=${0##*/}
-LIBRARIES="jquery zepto backbone underscore prototype require raphael"
+LIBRARIES="jquery zepto backbone underscore prototype require raphael ember emberdata handlebars"
 
 txtund=$(tput sgr 0 1)    # Underline
 txtbld=$(tput bold)       # Bold
