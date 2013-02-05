@@ -103,6 +103,39 @@ case $1 in
         [[ -n "$DESTINATION" ]] && FILENAME=$DESTINATION || FILENAME="raphael.min.js"
         simple_get "https://github.com/DmitryBaranovskiy/raphael/raw/master/raphael-min.js" $FILENAME "Raphaël"
         ;;
+    ember|emberjs)
+        getting "Ember.js"
+        [[ -n "$DESTINATION" ]] && FILENAME=$DESTINATION || FILENAME="ember.min.js"
+        check_exists $FILENAME
+        HTML=`curl -s http://emberjs.com/`
+        URL=`echo $HTML | perl -wlne 'print $1 if /(https\:\/\/raw.github.com\/emberjs\/ember.js\/release-builds\/ember-[^"]+\.min\.js)/'`
+        curl -s $URL > $FILENAME
+        downloaded "Ember.js" $FILENAME
+        ;;
+    emberdata|ember-data)
+        getting "Ember Data"
+        [[ -n "$DESTINATION" ]] && FILENAME=$DESTINATION || FILENAME="ember-data.min.js"
+        check_exists $FILENAME
+        TEMPDIR=`mktemp -dt latest`
+        pushd $TEMPDIR > /dev/null
+        git clone https://github.com/emberjs/data.git || exit 2
+        cd data || exit 2
+        bundle || exit 2
+        bundle exec rake dist || exit 2
+        popd > /dev/null
+        uglifyjs $TEMPDIR/data/dist/ember-data.js > $FILENAME
+        rm -rf $TEMPDIR
+        downloaded "Ember Data" $FILENAME
+        ;;
+    handlebars|handlebarsjs)
+        getting "handlebars"
+        [[ -n "$DESTINATION" ]] && FILENAME=$DESTINATION || FILENAME="handlebars.min.js"
+        check_exists $FILENAME
+        HTML=`curl -s http://handlebarsjs.com/`
+        URL=`echo $HTML | perl -wlne 'print $1 if /(https\:\/\/raw.github.com\/wycats\/handlebars.js\/[^\/]+\/dist\/handlebars\.js)/'`
+        curl -s $URL > $FILENAME
+        downloaded "handlebars" $FILENAME
+        ;;
     *)
         echo "${txtund}${txtred}Error:${txtrst} Unknown library: $1"
         exit 99
