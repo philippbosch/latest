@@ -30,6 +30,9 @@ Libraries available:
  › prototype
  › require
  › raphael
+ › ember
+ › ember-data
+ › handlebars
 ```
 
 Installation
